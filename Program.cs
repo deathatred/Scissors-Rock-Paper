@@ -15,7 +15,17 @@
                 while (name == string.Empty || name.Length > 10)
                 {
                     Console.WriteLine("Name cant be empty or more than 10 characters long");
-                    Console.ReadLine();
+                    name = Console.ReadLine();
+                }
+            }
+            Console.WriteLine("Great now enter your age: ");
+            if (int.TryParse(Console.ReadLine(), out int value))
+            {
+                if (value < 12)
+                {
+                    Console.WriteLine("Sorry lil sir, this game is for 12 and above!");
+                    Thread.Sleep(5000);
+                    return;
                 }
             }
         }
