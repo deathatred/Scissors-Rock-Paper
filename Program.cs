@@ -4,7 +4,20 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("    _______\r\n---'   ____)____\r\n          ______)\r\n       __________)\r\n      (____)\r\n---.__(___)");
+            Authorize();
+        }
+        private static void Authorize()
+        {
+            Console.WriteLine("Greetings new player! Please, enter your nickname: ");
+            string name = Console.ReadLine();
+            if (name == string.Empty || name.Length > 10)
+            {
+                while (name == string.Empty || name.Length > 10)
+                {
+                    Console.WriteLine("Name cant be empty or more than 10 characters long");
+                    Console.ReadLine();
+                }
+            }
         }
     }
 }
