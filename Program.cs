@@ -12,7 +12,7 @@ namespace Scissors_Rock_Paper
             int age = 0;
             string name = null;
 
-            Console.WriteLine(ShowBattleImage(2));
+            
             Authorize(ref name, ref age);
             ShowPlayerStats(name, age, numbersOfRounds, wins, winrate);
             LaunchBattle(name);
@@ -68,12 +68,11 @@ namespace Scissors_Rock_Paper
             }
             else if (value == 1)
             {
-                Battle();
-                
+                Battle(name);      
             }
 
         }
-        private static void Battle()
+        private static void Battle(string nickname)
         {
             Console.WriteLine("Now choose your weapon: 1.Scissors 2.Paper 3.Rock");
             int value;
@@ -81,11 +80,16 @@ namespace Scissors_Rock_Paper
             {
                 Console.WriteLine("Invalid input. Please enter 1 or 2 or 3: ");
             }
+            Random random = new Random();
+            int botChoise = random.Next(1,4);
+            Console.WriteLine($"{value}, {botChoise}");
+            Console.WriteLine($"   {nickname}:           VS             BOT:");
+            Console.WriteLine(ShowBattleImage((value, botChoise)));
         }
 
-        private static string ShowBattleImage(int number)
+        private static string ShowBattleImage((int number, int secondNumber) input)
         {
-            string rockVsScissors = @"
+            string scissorsVsScissors = @"
     _______                      _______
 ---'   ____)____            ____(____   '---
           ______)          (______
@@ -94,25 +98,25 @@ namespace Scissors_Rock_Paper
 ---.__(___)                      (___)__.---
 ";
 
-            string rockVsPaper = @"
-    _______                     _______
----'   ____)____          _____(____   '----
-          ______)        (______ 
-       __________)      (_______   
-      (____)              (_______      
+            string scissorsVsPaper = @"
+    _______                      _______
+---'   ____)_______        _____(____   '----
+          _________)      (______ 
+       ___________)      (_______   
+      (____)               (_______      
 ---.__(___)                   (_________.---  
 ";
 
-            string rockVsRock = @"
+            string scissorsVsRock = @"
     _______                     _______
----'   ____)____            ___(____   '---
-          ______)          (_____)
+---'   ____)______          ___(____   '---
+        __________)        (_____)
        __________)         (_____)
       (____)                (____)     
 ---.__(___)                  (___)____.---
 ";
 
-            string paperVsScissors = @"
+            string paperVsPaper = @"
      _______                     _______
 ---'    ____)____           ____(____   '----
            ______)         (_______
@@ -130,7 +134,7 @@ namespace Scissors_Rock_Paper
 ---.__________)          (___)____.---
 ";
 
-            string paperVsPaper = @"
+            string paperVsScissors = @"
      _______                     _______
 ---'    ____)____         ______(____   '---
            ______)       (______
@@ -139,7 +143,7 @@ namespace Scissors_Rock_Paper
 ---.__________)                  (___)__.--- 
 ";
 
-            string scissorsVsRock = @"
+            string rockVsRock = @"
     _______              _______
 ---'   ____)         ___(____   '---
       (_____)       (_____)
@@ -148,7 +152,7 @@ namespace Scissors_Rock_Paper
 --.___(___)           (___)____.---
 ";
 
-            string scissorsVsPaper = @"
+            string rockVsScissors = @"
     _______               _______
 ---'   ____)         ____(____   '---
       (_____)       (______
@@ -157,7 +161,7 @@ namespace Scissors_Rock_Paper
 ---.__(___)                (___)__.---
 ";
 
-            string scissorsVsScissors = @"
+            string rockVsPaper = @"
    ______                 _______  
 --'  ____)__         ____(____   '----            
       (_____)      (______
@@ -166,25 +170,25 @@ namespace Scissors_Rock_Paper
 ---.__(___)          (_________.---
 ";
 
-            switch (number)
+            switch (input)
             {
-                case 1:
+                case (3,1):
                     return rockVsScissors;
-                case 2:
+                case (3,2):
                     return rockVsPaper;
-                case 3:
+                case (3,3):
                     return rockVsRock;
-                case 4:
+                case (1,3):
                     return scissorsVsRock;
-                case 5:
+                case (1,2):
                     return scissorsVsPaper;
-                case 6:
+                case (1,1):
                     return scissorsVsScissors;
-                case 7:
+                case (2,2):
                     return paperVsPaper;
-                case 8:
+                case (2,3):
                     return paperVsRock;
-                case 9:
+                case (2,1):
                     return paperVsScissors;
                 default: return rockVsScissors;
             }
