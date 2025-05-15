@@ -144,18 +144,18 @@ namespace ScissorsRockPaper
             {
                 if (roundCount > 3)
                 {
+                    Console.Clear();
                     if (wonRounds >= 2)
-                    {
+                    {      
                         wins++;
                         numberOfGames++;
                         ShowRandomWinMessage();
                     }
                     else
-                    {
+                    {                     
                         numberOfGames++;
                         ShowRandomLostMessage();
                     }
-                    Console.WriteLine(wonRounds + "WON ROUNDS!");
                     wonRounds = 0;
                     lostRounds = 0;
                     Console.WriteLine("Do you want to play one more game? 1.Yes 2. No");
@@ -309,8 +309,8 @@ namespace ScissorsRockPaper
         {
             Random rnd = new Random();
             int random = rnd.Next(1, 4);
-            string firstMessage = "You lost, you`ll definitelly win next time! Good luck next round";
-            string secondMessage = "You lost, but don’t worry, even the best lose sometimes. Let’s go another round!";
+            string firstMessage = "You lost, you`ll definitelly win next time! Good luck next game";
+            string secondMessage = "You lost, but don’t worry, even the best lose sometimes. Let’s go another game!";
             string thirdMessage = "You lost, looks like that one didn’t go your way, but you’ve got this! Ready to bounce back?";
             switch (random)
             {
@@ -329,9 +329,9 @@ namespace ScissorsRockPaper
         {
             Random rnd = new Random();
             int random = rnd.Next(1, 4);
-            string firstMessage = "Nice move! You crushed it that round!";
+            string firstMessage = "You won! Nice move! You crushed it that game!";
             string secondMessage = "Victory! Looks like you’ve got the winning instincts!";
-            string thirdMessage = "Well played! That was a smart choice!";
+            string thirdMessage = "That is your win! Well played! That was a smart choice!";
 
             switch (random)
             {
