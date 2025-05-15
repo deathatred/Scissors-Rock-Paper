@@ -133,8 +133,7 @@ namespace ScissorsRockPaper
                             break;
                     }
                     roundCount++;
-                    Console.WriteLine(roundCount+"ROUND COUNT");
-                } //deciding win
+                } 
                 else
                 {
                     draws++;
