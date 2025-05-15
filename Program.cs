@@ -1,21 +1,21 @@
 ﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Scissors_Rock_Paper
+namespace ScissorsRockPaper
 {
     internal class Program
     {
         static void Main(string[] args)
         {
             int wins = 0;
-            int numbersOfRounds = 0;
+            int numbersOfGames = 0;
             float winrate = 0f;
             int age = 0;
             string name = null;
-
+            
 
             Authorize(ref name, ref age);
-            ShowPlayerStats(name, age, numbersOfRounds, wins, winrate);
-            LaunchBattle(name);
+            ShowPlayerStats(name, age, numbersOfGames, wins, winrate);
+            LaunchBattle(name, ref wins, ref numbersOfGames);
         }
         private static void Authorize(ref string name, ref int age)
         {
@@ -41,19 +41,19 @@ namespace Scissors_Rock_Paper
                 }
             }
         }
-        private static void ShowPlayerStats(string nickname, int age, int numberOfRoundsPlayed, int wins, float winrate)
+        private static void ShowPlayerStats(string nickname, int age, int numberOfGames, int wins, float winrate)
         {
             Console.WriteLine("=====================================");
             Console.WriteLine("           PLAYER STATS              ");
             Console.WriteLine("=====================================");
             Console.WriteLine($" Nickname:              {nickname}");
             Console.WriteLine($" Age:                   {age}");
-            Console.WriteLine($" Rounds Played:         {numberOfRoundsPlayed}");
+            Console.WriteLine($" Games Played:          {numberOfGames}");
             Console.WriteLine($" Wins:                  {wins}");
             Console.WriteLine($" Winrate:               {winrate:F2}%");
             Console.WriteLine("=====================================");
         }
-        private static void LaunchBattle(string name)
+        private static void LaunchBattle(string name,ref int wins,ref int numberOfGames)
         {
             Console.WriteLine("Are you ready to start the battle? 1. Yes. 2. No. ");
             int value;
@@ -68,37 +68,53 @@ namespace Scissors_Rock_Paper
             }
             else if (value == 1)
             {
-                Battle(name);
+                Battle(name,ref wins,ref numberOfGames);
             }
 
         }
-        private static void Battle(string nickname) //Add console write lines and win counter, battle logic is okay!
+        private static void Battle(string nickname, ref int wins, ref int numberOfGames) //Add console write lines and win counter, battle logic is okay!
         {
             int roundCount = 0;
+            Random random = new Random();
             while (true)
             {  
                 Console.Clear();
                 
-                Console.WriteLine($"ROUND {roundCount}\nNow choose your weapon: 1.Scissors 2.Paper 3.Rock");
+                Console.WriteLine($"ROUND {roundCount}\n Choose your weapon: 1.Scissors 2.Paper 3.Rock");
                 int value;
                 while (!int.TryParse(Console.ReadLine(), out value) || (value != 1 && value != 2 && value != 3))
                 {
                     Console.WriteLine("Invalid input. Please enter 1 or 2 or 3: ");
                 }
-                Random random = new Random();
                 int botChoise = random.Next(1, 4);
-                Console.WriteLine($"{value}, {botChoise}");
+                Console.WriteLine($"{(Weapon)value}, {(Weapon)botChoise}");
                 Console.WriteLine($"   {nickname}:           VS             BOT:");
-                Console.WriteLine(ShowBattleImage((value, botChoise),out bool win));
-                Console.ReadLine();
+                Console.WriteLine(ShowBattleImage(((Weapon)value, (Weapon)botChoise),out bool win));
                 if (value != botChoise)
                 {
+                    switch (win)
+                    {
+                        case true:
+                            Console.WriteLine("You won!");
+                            wins++;
+                            break;
+                        case false:
+                            {
+                                Console.WriteLine("You lost!");
+                            }
+                            break;
+                    }
                     roundCount++;
                 }
+                else
+                {
+                    Console.WriteLine("Draw, try again");
+                }
+                Console.ReadLine();
             }
         }
 
-        private static string ShowBattleImage((int number, int secondNumber) input, out bool win)
+        private static string ShowBattleImage((Weapon firstChoise, Weapon secondChoise) input, out bool win)
         {
             string scissorsVsScissors = @"
     _______                      _______
@@ -183,31 +199,31 @@ namespace Scissors_Rock_Paper
 
             switch (input)
             {
-                case (3, 1):
+                case (Weapon.Rock, Weapon.Scissors):
                     win = true;
                     return rockVsScissors;
-                case (3, 2):
+                case (Weapon.Rock, Weapon.Paper):
                     win = false;
                     return rockVsPaper;
-                case (3, 3):
+                case (Weapon.Rock, Weapon.Rock):
                     win = false;
                     return rockVsRock;
-                case (1, 3):
+                case (Weapon.Scissors, Weapon.Rock):
                     win = false;
                     return scissorsVsRock;
-                case (1, 2):
+                case (Weapon.Scissors, Weapon.Paper):
                     win = true;
                     return scissorsVsPaper;
-                case (1, 1):
+                case (Weapon.Scissors, Weapon.Scissors):
                     win = false;
                     return scissorsVsScissors;
-                case (2, 2):
+                case (Weapon.Paper, Weapon.Paper):
                     win = false;
                     return paperVsPaper;
-                case (2, 3):
+                case (Weapon.Paper, Weapon.Rock):
                     win = true;
                     return paperVsRock;
-                case (2, 1):
+                case (Weapon.Paper, Weapon.Scissors):
                     win = false;
                     return paperVsScissors;
                 default:win = false; return rockVsScissors;
