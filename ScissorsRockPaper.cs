@@ -37,7 +37,7 @@ namespace ScissorsRockPaper
             if (value < 12)
             {
                 Console.WriteLine("Sorry you must be at least 12 years old to play. The program will close.");
-                Environment.Exit(0); 
+                Environment.Exit(0);
             }
 
             age = value;
@@ -124,40 +124,49 @@ namespace ScissorsRockPaper
                     switch (win)
                     {
                         case true:
-                            Console.WriteLine("                YOU WON!            ");
+                            Console.WriteLine("                YOU WON ROUND!            ");
                             wonRounds++;
                             break;
                         case false:
-                            Console.WriteLine("                YOU LOST!           ");
+                            Console.WriteLine("                YOU LOST ROUND!           ");
                             lostRounds++;
                             break;
                     }
-                    roundCount++;
-                } 
+
+                }
                 else
                 {
                     draws++;
                     Console.WriteLine("        Draw, try again        ");
                 }
+                roundCount++;
             }
             void GameEnding(ref int wins, ref int numberOfGames)
             {
-                if (roundCount > 3)
+                bool gameEnd = false;
+                if (wonRounds == 2)
                 {
-                    Console.Clear();
-                    if (wonRounds >= 2)
-                    {      
-                        wins++;
-                        numberOfGames++;
-                        ShowRandomWinMessage();
-                    }
-                    else
-                    {                     
+                    wins++;
+                    numberOfGames++;
+                    ShowRandomWinMessage();
+                    Console.WriteLine($"Stats of this game WINS: {wonRounds}, LOSES: {lostRounds}, DRAWS: {draws}");
+                    gameEnd = true;
+                }
+                else if (lostRounds == 2)
+                {
+                    {
                         numberOfGames++;
                         ShowRandomLostMessage();
+                        Console.WriteLine($"Stats of this game WINS: {wonRounds}, LOSES: {lostRounds}, DRAWS: {draws}");
+                        gameEnd = true;
                     }
+                }
+                if (gameEnd)
+                {
                     wonRounds = 0;
                     lostRounds = 0;
+                    draws = 0;
+
                     Console.WriteLine("Do you want to play one more game? 1.Yes 2. No");
 
                     int exitChoise;
@@ -178,6 +187,7 @@ namespace ScissorsRockPaper
                     if (exitChoise == 2)
                     {
                         Console.Clear();
+                        Console.WriteLine($"Goodbye {nickname}!\n");
                         ShowPlayerStats(nickname, age, numberOfGames, wins);
                         Environment.Exit(0);
                     }
@@ -309,9 +319,9 @@ namespace ScissorsRockPaper
         {
             Random rnd = new Random();
             int random = rnd.Next(1, 4);
-            string firstMessage = "You lost, you`ll definitelly win next time! Good luck next game";
-            string secondMessage = "You lost, but don’t worry, even the best lose sometimes. Let’s go another game!";
-            string thirdMessage = "You lost, looks like that one didn’t go your way, but you’ve got this! Ready to bounce back?";
+            string firstMessage = "You lost this GAME, you`ll definitelly win next time! Good luck next game";
+            string secondMessage = "You lost this GAME, but don’t worry, even the best lose sometimes. Let’s go another game!";
+            string thirdMessage = "You lost this GAME, looks like that one didn’t go your way, but you’ve got this! Ready to bounce back?";
             switch (random)
             {
                 case 1:
@@ -329,9 +339,9 @@ namespace ScissorsRockPaper
         {
             Random rnd = new Random();
             int random = rnd.Next(1, 4);
-            string firstMessage = "You won! Nice move! You crushed it that game!";
+            string firstMessage = "You won this GAME! Nice move! You crushed it that game!";
             string secondMessage = "Victory! Looks like you’ve got the winning instincts!";
-            string thirdMessage = "That is your win! Well played! That was a smart choice!";
+            string thirdMessage = "That is your win in this GAME! Well played! That was a smart choice!";
 
             switch (random)
             {
